@@ -1,10 +1,10 @@
 import streamlit as st
 from pathlib import Path
-from PIL import Image
+
 
 # ── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Indígenas Surdos Guarani-Kaiowá",
+    page_title="Entre Práticas e Linguagens – Criança Indígena Surda Kaiowá",
     page_icon="🪶",
     layout="wide",
 )
@@ -255,10 +255,10 @@ st.markdown("""
     PPGET &nbsp;·&nbsp; Linha: Educação e Diversidade
   </div>
   <div class="hero-title">
-    Comunicação e Interação Social de<br>
-    Indígenas Surdos Guarani-Kaiowá<br>
-    com a Sociedade Não Indígena:<br>
-    Um Estudo de Caso sobre o Papel da LIBRAS
+    Entre Práticas e Linguagens:<br>
+    Um Estudo de Caso sobre a Comunicação<br>
+    de uma Criança Indígena Surda Kaiowá<br>
+    em Contextos Interculturais
   </div>
   <div class="hero-meta">
     Mestranda: Camila Carollo Trento &nbsp;|&nbsp;
@@ -345,48 +345,46 @@ st.markdown("---")
 # ══════════════════════════════════════════════════════════════════════════════
 st.markdown('<div class="section-title">Materiais Produzidos</div>', unsafe_allow_html=True)
 
-# Coleta todas as imagens da pasta imagens/
 img_dir = Path(__file__).parent / "imagens"
 supported = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp"}
-image_files = sorted([f for f in img_dir.iterdir() if f.suffix.lower() in supported])
 
-def friendly(path: Path) -> str:
-    return path.stem.replace("_", " ").replace("-", " ").title()
+# Coleta subpastas ordenadas alfabeticamente
+galleries = sorted([d for d in img_dir.iterdir() if d.is_dir()])
 
-if not image_files:
-    st.info("Nenhuma imagem encontrada na pasta `imagens/`. Adicione imagens lá para exibi-las aqui.")
+if not galleries:
+    st.info("Nenhuma subpasta encontrada em `imagens/`. Rode o `pdf_to_jpg.py` primeiro.")
 else:
-    IMGS_PER_TAB = 6
     COLS = 3
-    chunks = [image_files[i : i + IMGS_PER_TAB] for i in range(0, len(image_files), IMGS_PER_TAB)]
-    tab_labels = [f"Galeria {i + 1}" for i in range(len(chunks))]
-    tabs = st.tabs(tab_labels)
 
-    for tab, chunk in zip(tabs, chunks):
-        with tab:
-            rows = [chunk[i : i + COLS] for i in range(0, len(chunk), COLS)]
-            for row in rows:
-                cols = st.columns(COLS, gap="medium")
-                for col, img_path in zip(cols, row):
-                    with col:
-                        try:
-                            img = Image.open(img_path)
-                            st.markdown('<div class="img-frame">', unsafe_allow_html=True)
-                            st.image(img, use_container_width=True)
-                            st.markdown(
-                                f'<div class="img-caption">{friendly(img_path)}</div>',
-                                unsafe_allow_html=True,
-                            )
-                            st.markdown('</div>', unsafe_allow_html=True)
-                        except Exception:
-                            st.warning(f"Não foi possível carregar: {img_path.name}")
+    selected = st.selectbox(
+        "Selecione o material:",
+        options=[d.name for d in galleries],
+        index=0,
+    )
 
-    st.markdown(f"""
-    <div style="text-align:center;margin-top:10px;font-size:0.82rem;color:#8B4513;font-weight:600;">
-        {len(image_files)} imagem(ns) · {len(chunks)} aba(s) · Adicione mais arquivos à pasta
-        <code>imagens/</code> para que apareçam automaticamente.
-    </div>
-    """, unsafe_allow_html=True)
+    gallery_dir = next(d for d in galleries if d.name == selected)
+    images = sorted([f for f in gallery_dir.iterdir() if f.suffix.lower() in supported])
+
+    if not images:
+        st.info("Nenhuma imagem nesta pasta.")
+    else:
+        st.markdown(f"""
+        <div style="margin-bottom:14px;font-size:0.82rem;color:#8B4513;font-weight:600;">
+            {len(images)} página(s)
+        </div>
+        """, unsafe_allow_html=True)
+
+        rows = [images[i : i + COLS] for i in range(0, len(images), COLS)]
+        for row in rows:
+            cols = st.columns(COLS, gap="medium")
+            for col, img_path in zip(cols, row):
+                with col:
+                    try:
+                        st.markdown('<div class="img-frame">', unsafe_allow_html=True)
+                        st.image(str(img_path), use_container_width=True)
+                        st.markdown('</div>', unsafe_allow_html=True)
+                    except Exception:
+                        st.warning(f"Não foi possível carregar: {img_path.name}")
 
 st.markdown("---")
 
@@ -472,7 +470,7 @@ st.markdown('<div class="zigzag"></div>', unsafe_allow_html=True)
 st.markdown("""
 <div class="footer">
   <div class="footer-title">
-    Comunicação e Interação Social de Indígenas Surdos Guarani-Kaiowá
+    Entre Práticas e Linguagens: Um Estudo de Caso sobre a Comunicação de uma Criança Indígena Surda Kaiowá em Contextos Interculturais
   </div>
   Universidade Federal da Grande Dourados · Faculdade Intercultural Indígena · PPGET<br>
   Mestranda: Camila Carollo Trento · Orientadora: Prof.ª Dr.ª Luciana Lopes Coelho · Dourados · 2026
