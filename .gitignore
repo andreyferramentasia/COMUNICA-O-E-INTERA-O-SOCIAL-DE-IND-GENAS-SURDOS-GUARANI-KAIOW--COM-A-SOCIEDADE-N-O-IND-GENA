@@ -1,0 +1,15 @@
+# Python virtual environment
+venv/
+
+# Poppler binaries
+Release-25.12.0-0/
+
+# Imagens convertidas dos PDFs
+pdfs_imagens/
+
+# PDFs originais
+*.pdf
+
+# Python
+__pycache__/
+*.pyc

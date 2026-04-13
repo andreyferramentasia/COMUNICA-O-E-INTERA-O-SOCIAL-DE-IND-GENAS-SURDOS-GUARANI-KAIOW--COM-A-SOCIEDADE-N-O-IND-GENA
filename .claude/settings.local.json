@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(venv/Scripts/pip install:*)",
+      "Bash(where pdftoppm:*)",
+      "Bash(winget install:*)",
+      "Bash(cmd.exe /c \"if exist \\\\\"C:\\\\Program Files\\\\poppler\\\\Library\\\\bin\\\\pdftoppm.exe\\\\\" \\(echo FOUND\\) else \\(echo NOT FOUND\\)\")",
+      "Bash(cmd.exe /c \"dir \\\\\"C:\\\\Users\\\\Andrey\\\\Desktop\\\\Program Files\\\\\" /b\")",
+      "Bash(cmd.exe /c \"dir \\\\\"C:\\\\Users\\\\Andrey\\\\Desktop\\\\\" /b\")",
+      "Bash(venv/Scripts/python pdf_to_jpg.py)",
+      "Bash(cmd.exe /c \"dir /s /b \\\\\"C:\\\\Users\\\\Andrey\\\\Desktop\\\\Release-25.12.0-0\\\\\"\")",
+      "Bash(cmd.exe /c \"dir /s /b \\\\\"C:\\\\Users\\\\Andrey\\\\Desktop\\\\COMUNICAÇÃO-E-INTERAÇÃO-SOCIAL-DE-INDÍGENAS-SURDOS-GUARANI-KAIOWÁ-COM-A-SOCIEDADE-NÃO-INDÍGENA\\\\Release-25.12.0-0\\\\\" 2>&1 | findstr pdftoppm\")"
+    ]
+  }
+}
